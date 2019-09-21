@@ -9,14 +9,14 @@ const withErrorHandler = (WrappedComponent, axios) => {
 			error: null,
 		};
 
-		componentWillMount() {
-			axios.interceptors.request.use(req => {
+		UNSAFE_componentWillMount() {
+			this.reqInterceptor = axios.interceptors.request.use(req => {
 				this.setState({
 					error: null,
 				});
 				return req;
 			});
-			axios.interceptors.response.use(
+			this.reqInterceptor = axios.interceptors.response.use(
 				res => res,
 				error => {
 					this.setState({
@@ -24,6 +24,12 @@ const withErrorHandler = (WrappedComponent, axios) => {
 					});
 				}
 			);
+		}
+
+		// This is the clean up return function if you were to use the .useEffect() react Hooks
+		componentWillUnmount() {
+			axios.interceptors.request.eject(this.reqInterceptor);
+			axios.interceptors.request.eject(this.resInterceptor);
 		}
 
 		errorConfirmedHandler = () => {
