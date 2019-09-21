@@ -1,5 +1,5 @@
 {
     "editor.fontFamily": "",
-    "editor.cursorStyle": "block",
-    "editor.fontSize": 16
+    "editor.fontSize": 20,
+    "terminal.integrated.fontFamily": "Menlo"
 }
