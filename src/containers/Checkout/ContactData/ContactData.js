@@ -103,7 +103,7 @@ export class ContactData extends Component {
 			formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
 		}
 		const order = {
-			ingredients: this.state.ings,
+			ingredients: this.props.ings,
 			price: this.props.price,
 			orderData: formData,
 		};
