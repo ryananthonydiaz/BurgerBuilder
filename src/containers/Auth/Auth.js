@@ -72,11 +72,12 @@ export class Auth extends Component {
 
 	submitHandler = event => {
 		event.preventDefault();
-		this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value);
+		this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignup);
 	};
 
 	switchAuthModeHandler = () => {
 		this.setState(prevState => {
+			console.log(prevState);
 			return { isSignup: !prevState.isSignup };
 		});
 	};
@@ -121,7 +122,7 @@ export class Auth extends Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onAuth: (email, password) => dispatch(auth(email, password)),
+		onAuth: (email, password, isSignup) => dispatch(auth(email, password, isSignup)),
 	};
 };
 
