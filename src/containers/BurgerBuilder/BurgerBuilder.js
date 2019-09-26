@@ -8,7 +8,13 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import { addIngredient, removeIngredient, initIngredients, purchaseInit } from '../../store/actions/index';
+import {
+	addIngredient,
+	removeIngredient,
+	initIngredients,
+	purchaseInit,
+	setAuthRedirectPath,
+} from '../../store/actions/index';
 import axios from '../../axios-orders';
 
 class BurgerBuilder extends Component {
@@ -32,7 +38,14 @@ class BurgerBuilder extends Component {
 		return sum > 0;
 	}
 
-	purchaseHandler = () => this.setState({ purchasing: true });
+	purchaseHandler = () => {
+		if (this.props.isAuthenticated) {
+			this.setState({ purchasing: true });
+		} else {
+			this.props.onSetAuthRedirectPath('/checkout');
+			this.props.history.push('/auth');
+		}
+	};
 
 	purchaseCancelHandler = () => {
 		this.setState({ purchasing: false });
@@ -66,6 +79,7 @@ class BurgerBuilder extends Component {
 						disabled={disabledInfo}
 						purchasable={this.updatePurchaseState(this.props.ings)}
 						ordered={this.purchaseHandler}
+						isAuth={this.props.isAuthenticated}
 						price={this.props.price}
 					/>
 					,
@@ -97,6 +111,7 @@ const mapStateToProps = state => {
 		ings: state.burgerBuilder.ingredients,
 		price: state.burgerBuilder.totalPrice,
 		error: state.burgerBuilder.error,
+		isAuthenticated: state.auth.token !== null,
 	};
 };
 
@@ -111,7 +126,12 @@ const mapDispatchToProps = dispatch => {
 		onInitIngredients: () => {
 			dispatch(initIngredients());
 		},
-		onInitPurchase: () => dispatch(purchaseInit()),
+		onInitPurchase: () => {
+			dispatch(purchaseInit());
+		},
+		onSetAuthRedirectPath: path => {
+			dispatch(setAuthRedirectPath(path));
+		},
 	};
 };
 
