@@ -1,4 +1,5 @@
 import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL } from './actionTypes';
+import { webAPIKEY } from '../../API_KEY/apiKeys';
 
 import axios from 'axios';
 
@@ -32,10 +33,7 @@ export const auth = (email, password) => {
 			returnSecureToken: true,
 		};
 		axios
-			.post(
-				'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDE91Riwr-zNREZoqdtbRu-KmS5PLnpHjM',
-				authData
-			)
+			.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${webAPIKEY}`, authData)
 			.then(response => {
 				console.log(response);
 				dispatch(authSuccess(response.data));
