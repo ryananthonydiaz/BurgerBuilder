@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300&display=swap');
+
+
+.NoOrder {
+    box-sizing: border-box;
+    height: 500%;
+    font-family: 'Lato';
+    font-size: 24px;
+    position: absolute;
+    top: 25%;
+    padding: 10px;
+    text-align: center;
+}
+
+.title {
+    text-transform: uppercase;
+
+}
+
+.body {
+    text-transform: uppercase;
+
+}
