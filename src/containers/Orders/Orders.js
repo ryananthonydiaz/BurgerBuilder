@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Order from '../../components/Order/Order';
@@ -8,33 +8,32 @@ import { fetchOrders } from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import classes from './Orders.module.css';
 
-export class Orders extends Component {
-	componentDidMount() {
-		this.props.onFetchOrders(this.props.token, this.props.userId);
-	}
+const Orders = props => {
+	useEffect(() => {
+		props.onFetchOrders(props.token, props.userId);
+		//eslint-disable-next-line
+	}, []);
 
-	render() {
-		let orders = <Spinner />;
+	let orders = <Spinner />;
 
-		if (!this.props.loading) {
-			orders = this.props.orders.map(order => (
-				<Order key={order.id} ingredients={order.ingredients} price={order.price} />
-			));
-		}
-		return (
-			<div>
-				{orders.length === 0 ? (
-					<div className={classes.NoOrder}>
-						<h2 className={classes.title}>No Orders have been placed yet</h2>
-						<p className={classes.body}>Use the menu in the top left corner to place an order</p>{' '}
-					</div>
-				) : (
-					orders
-				)}
-			</div>
-		);
+	if (!props.loading) {
+		orders = props.orders.map(order => (
+			<Order key={order.id} ingredients={order.ingredients} price={order.price} />
+		));
 	}
-}
+	return (
+		<div>
+			{orders.length === 0 ? (
+				<div className={classes.NoOrder}>
+					<h2 className={classes.title}>No Orders have been placed yet</h2>
+					<p className={classes.body}>Use the menu in the top left corner to place an order</p>{' '}
+				</div>
+			) : (
+				orders
+			)}
+		</div>
+	);
+};
 
 const mapStateToProps = state => {
 	return {
