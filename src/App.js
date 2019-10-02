@@ -11,10 +11,10 @@ import Logout from './containers/Auth/Logout/Logout';
 import { authCheckState } from './store/actions';
 
 const App = props => {
+	const { onTryAutoSignup } = props;
 	useEffect(() => {
-		props.onTryAutoSignup();
-		// eslint-disable-next-line
-	}, []);
+		onTryAutoSignup();
+	}, [onTryAutoSignup]);
 
 	let routes = (
 		<Switch>

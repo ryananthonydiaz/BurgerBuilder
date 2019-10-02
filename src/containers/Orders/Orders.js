@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 import Order from '../../components/Order/Order';
 import axios from '../../axios-orders';
@@ -9,10 +9,10 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import classes from './Orders.module.css';
 
 const Orders = props => {
+	const { onFetchOrders, token, userId } = props;
 	useEffect(() => {
-		props.onFetchOrders(props.token, props.userId);
-		//eslint-disable-next-line
-	}, []);
+		onFetchOrders(token, userId);
+	}, [onFetchOrders, token, userId]);
 
 	let orders = <Spinner />;
 
